@@ -244,8 +244,8 @@ class genomicWindows:
             df_neighborhood = df.query(
                 "contig == @contig and start <= @stop and stop >= @start"
             )
-            
-            #label island
+
+            # label island
             isl_start = str(df_neighborhood.start.min())
             isl_stop = str(df_neighborhood.stop.max())
             df_neighborhood["island"] = str(contig) + ":" + isl_start + "-" + isl_stop

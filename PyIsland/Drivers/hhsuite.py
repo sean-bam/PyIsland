@@ -67,6 +67,7 @@ def get_hhsuite_neff(msa):
     neff = float(p1.stdout.strip().split()[10])
     return round(neff, 2)
 
+
 def align_clusters_with_hhalign(input_dir, output_dir, df_clustering):
     """
     accepts a table of profile, length and cluster assignment

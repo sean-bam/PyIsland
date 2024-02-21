@@ -5,6 +5,7 @@ import string
 from google.cloud import bigquery
 from atxlib import GCP
 
+
 def upload_gff_to_bq(gff, table_id):
     """
     Accepts a GFF file and a BQ location
@@ -126,10 +127,11 @@ def csv2fasta(csv, output):
                 i += 1
     return i
 
-def write_table_to_gcs(input_table:str, uri:str, location='us-central1'):
+
+def write_table_to_gcs(input_table: str, uri: str, location="us-central1"):
     client = bigquery.Client()
     job_config = bigquery.ExtractJobConfig()
-    #job_config.destination_format = bigquery.DestinationFormat.CSV
+    # job_config.destination_format = bigquery.DestinationFormat.CSV
     job_config.print_header = False
 
     extract_job = client.extract_table(
@@ -232,18 +234,21 @@ def get_seqs_from_bq(
         print(f"Deleting local output {output_blob_name}")
         Path(output_blob_name).unlink()
 
-def blast_rep_to_member(seq_table:str, clustering_table:str, blast_table:str, output_table:str):
+
+def blast_rep_to_member(
+    seq_table: str, clustering_table: str, blast_table: str, output_table: str
+):
     """
     Accepts a bigquery table of sequences, a bigquery table of clustering information, and a bigquery table of blast hits
     and returns a table of sequences that have a blast hit to a representative sequence
     """
     client = bigquery.Client()
 
-    #extract seqs to table
+    # extract seqs to table
     job_config = bigquery.QueryJobConfig(
-        dry_run = False,
-        destination = output_table,
-        write_disposition = bigquery.WriteDisposition.WRITE_TRUNCATE,
+        dry_run=False,
+        destination=output_table,
+        write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE,
     )
 
     sql = f"""
@@ -265,19 +270,25 @@ def blast_rep_to_member(seq_table:str, clustering_table:str, blast_table:str, ou
     destination_table = client.get_table(output_table)
     print("Loaded {} rows.".format(destination_table.num_rows))
 
-def get_seqs_from_bq_as_fasta(seq_table:str, output_uri:str, keep_local=True):
+
+def get_seqs_from_bq_as_fasta(seq_table: str, output_uri: str, keep_local=True):
     """
-    Accepts a bigquery table with two rows "protein_id" and "sequence" and returns a fasta file 
+    Accepts a bigquery table with two rows "protein_id" and "sequence" and returns a fasta file
     """
 
-    #set paths
-    bucket_name, output_blob_path = GCP.storage.extract_bucketname_and_blob_path_from_uri(
-        output_uri
-    )
-    output_blob_name = output_blob_path.split("/")[-1]                      # e.g. 'output.faa'
-    output_blob_dir = "/".join(output_blob_path.split("/")[:-1]) + "/"      # e.g. 'path/to/folder/'
-    tmp_blob_dir = output_blob_dir + "tmp_blobs/"                           # e.g. 'path/to/folder/tmp_blobs/'
-    tmp_blobs = "gs://" + bucket_name + "/" + tmp_blob_dir + "split*"       #e.g. 'gs://bucket/path/to/folder/tmp_blobs/split*' 
+    # set paths
+    (
+        bucket_name,
+        output_blob_path,
+    ) = GCP.storage.extract_bucketname_and_blob_path_from_uri(output_uri)
+    output_blob_name = output_blob_path.split("/")[-1]  # e.g. 'output.faa'
+    output_blob_dir = (
+        "/".join(output_blob_path.split("/")[:-1]) + "/"
+    )  # e.g. 'path/to/folder/'
+    tmp_blob_dir = output_blob_dir + "tmp_blobs/"  # e.g. 'path/to/folder/tmp_blobs/'
+    tmp_blobs = (
+        "gs://" + bucket_name + "/" + tmp_blob_dir + "split*"
+    )  # e.g. 'gs://bucket/path/to/folder/tmp_blobs/split*'
 
     print(f"Writing {seq_table} to {tmp_blobs}")
     write_table_to_gcs(seq_table, tmp_blobs)
@@ -294,7 +305,7 @@ def get_seqs_from_bq_as_fasta(seq_table:str, output_uri:str, keep_local=True):
     num_seqs = 0
     with open(output_blob_name, "w") as outfile:
         for split in Path(".").glob("split*"):
-            #print(f"Converting {split} to {split}.faa")
+            # print(f"Converting {split} to {split}.faa")
             i = csv2fasta(split, split.with_suffix(".faa"))
             num_seqs += i
             with open(split.with_suffix(".faa")) as infile:
@@ -313,8 +324,8 @@ def get_seqs_from_bq_as_fasta(seq_table:str, output_uri:str, keep_local=True):
 
     if not keep_local:
         Path(output_blob_name).unlink()
-    
-    #remove temporary CSV files from bucket
+
+    # remove temporary CSV files from bucket
     print(f"Removing {tmp_blobs} from bucket")
     blobs = GCP.storage.list_blobs_with_prefix(bucket_name, tmp_blob_dir)
     for blob in blobs:

@@ -129,12 +129,12 @@ class overlap_filtering(object):
 
     def select_nonoverlapping_hits(df, threshold=0.33):
         df_list = []
-        
-        #qstart must be > qend
-        #otherwise, overlap can be falsely calculated
-        df[["qstart","qend"]] = (df.loc[:,["qstart","qend"]]
-                                   .mask(df.qstart > df.qend, df[["qend","qstart"]], axis = 'index')
-                                )
+
+        # qstart must be > qend
+        # otherwise, overlap can be falsely calculated
+        df[["qstart", "qend"]] = df.loc[:, ["qstart", "qend"]].mask(
+            df.qstart > df.qend, df[["qend", "qstart"]], axis="index"
+        )
 
         for name, group in df.groupby("qaccver"):
             df2 = overlap_filtering.remove_overlapping_hits(group, threshold)

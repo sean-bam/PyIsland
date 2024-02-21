@@ -12,7 +12,7 @@ def get_blobs_in_bucket_as_set(bucket, prefix):
     Accepts strings pointing to a bucket name and a "prefix" (i.e., a "folder")
     The prefix should end with a "/"
     Returns a python set of "filenames"
-    
+
     """
     client = storage.Client()
     bucket = client.get_bucket(bucket)
@@ -21,8 +21,8 @@ def get_blobs_in_bucket_as_set(bucket, prefix):
 
     blob_set = set()
     for blob in blobs:
-        f = Path(blob.name)  #.e.g, path/to/file.txt
-        blob_set.add(f.name) #e.g., file.txt
+        f = Path(blob.name)  # .e.g, path/to/file.txt
+        blob_set.add(f.name)  # e.g., file.txt
 
     return blob_set
 
@@ -74,6 +74,7 @@ def delete_blob(bucket_name, blob_name):
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(blob_name)
     blob.delete()
+
 
 def list_blobs_with_prefix(bucket_name, prefix, delimiter="/"):
     """Lists all the blobs in the bucket."""

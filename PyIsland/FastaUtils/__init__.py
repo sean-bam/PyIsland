@@ -104,42 +104,41 @@ def fa_strict(fasta_in, fasta_out, min_len=0):
     with open(fasta_out, "w") as o:
         SeqIO.write(seq_records, fasta_out, "fasta")
         print(f"wrote {len(seq_records)}/{i} sequences")
-        
-def get_subseq_coords(query,seq_record):
+
+
+def get_subseq_coords(query, seq_record):
     """
     reports 1-based start/stop/strand of a query subsequence in a subject seq
     query subsequence is a string
     subject is BioPython SeqRecord
-    
+
     Returns a tuple of start,stop, strand
     Start = -1 if the subsequence is not found
     """
-    
+
     qlen = len(query)
-    
-    
-    #search the positive strand
+
+    # search the positive strand
     start = seq_record.seq.find(query)
     stop = start + qlen
     strand = "1"
-    
-    #if no hit, search the RC
+
+    # if no hit, search the RC
     if start == -1:
-    
-        #reverse complement the query
+        # reverse complement the query
         query = str(Seq(query).reverse_complement())
 
-        #search
+        # search
         start = seq_record.seq.find(query)
         stop = start + qlen
         strand = "-1"
-    
-    #no hits on either strand
+
+    # no hits on either strand
     if start == -1:
         start = -2
         stop = -1
         print(f"could not find the qseq on either + or - strand")
-    
-    #update to 1-based
-    start +=1
-    return start,stop,strand
+
+    # update to 1-based
+    start += 1
+    return start, stop, strand

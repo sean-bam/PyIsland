@@ -89,6 +89,3 @@ def normalize_scores_by_selfhit(df):
     df["score_norm"] = -np.log(df["score"].astype("float") / selfscore)
 
     return df
-
-
-

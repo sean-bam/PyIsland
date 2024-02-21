@@ -3,7 +3,7 @@ import subprocess
 import shutil
 import tempfile
 
-from pyIsland import Parsers
+from PyIsland import Parsers
 
 
 def run_mmseqs_cls(
@@ -26,7 +26,7 @@ def run_mmseqs_cls(
 
     # seqdb = Path(f'{dbname}seqDB')
     # clsdb = Path(f'{dbname}clsDB')
-    tmp_dir = tempfile.TemporaryDirectory(dir='.')
+    tmp_dir = tempfile.TemporaryDirectory(dir=".")
     tmp_dir_path = Path(tmp_dir.name)
     tsv = Path(tsv)
 
@@ -62,28 +62,27 @@ def run_mmseqs_cls(
     #        file.unlink()
     #    except IsADirectoryError:
     #        pass
-    #shutil.rmtree("tmpmmseqsdb/")
-    
+    # shutil.rmtree("tmpmmseqsdb/")
+
+
 def get_reps_from_clustering(seqDB, clsDB, fasta):
-    
-    tmp_dir = tempfile.TemporaryDirectory(dir='.')
+    tmp_dir = tempfile.TemporaryDirectory(dir=".")
     tmp_dir_path = Path(tmp_dir.name)
-    repdb = tmp_dir_path / Path('repDB')
-    
+    repdb = tmp_dir_path / Path("repDB")
+
     subprocess.run(
         f"mmseqs createsubdb {clsDB} {seqDB} {repdb}",
         shell=True,
         check=True,
         stdout=subprocess.DEVNULL,
     )
-    
+
     subprocess.run(
         f"mmseqs convert2fasta {repdb} {fasta}",
         shell=True,
         check=True,
         stdout=subprocess.DEVNULL,
     )
-
 
 
 def cls2pro(
@@ -94,11 +93,17 @@ def cls2pro(
     )
 
     subprocess.run(
-        f"mmseqs createsubdb {clsDB} {seqDB} {clsDB}rep", shell=True, check=True, stdout=subprocess.DEVNULL
+        f"mmseqs createsubdb {clsDB} {seqDB} {clsDB}rep",
+        shell=True,
+        check=True,
+        stdout=subprocess.DEVNULL,
     )
 
     subprocess.run(
-        f"mmseqs createsubdb {clsDB} {seqDB}_h {clsDB}rep_h", shell=True, check=True, stdout=subprocess.DEVNULL
+        f"mmseqs createsubdb {clsDB} {seqDB}_h {clsDB}rep_h",
+        shell=True,
+        check=True,
+        stdout=subprocess.DEVNULL,
     )
 
     subprocess.run(
@@ -298,7 +303,9 @@ def get_missing_seqs_as_fasta_using_tsv(db1, tsv, output):
     assert db1_lookup.is_file(), f"Can't find {db1_lookup}"
 
     # get headers in DB1 missing from DB2
-    db1_dict = Parsers.mmseqs.get_mmseqs_internal_ids_as_dict(db1_lookup)  # internal id : header
+    db1_dict = Parsers.mmseqs.get_mmseqs_internal_ids_as_dict(
+        db1_lookup
+    )  # internal id : header
     tsv_dict = Parsers.mmseqs.mmseqs_tsv_to_dict(tsv)  # member : representative
 
     missing_ids = db1_dict.values() - tsv_dict.keys()

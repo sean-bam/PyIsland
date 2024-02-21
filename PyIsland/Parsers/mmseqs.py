@@ -146,21 +146,22 @@ def mmseqs_lookup_to_dict(lookup):
 
 
 def mmseqs_linear_tsv_to_df(tsv):
-    #df_cls = pd.read_csv(tsv, sep="\t", names=["cluster", "members"])
+    # df_cls = pd.read_csv(tsv, sep="\t", names=["cluster", "members"])
     df_cls = mmseqs_tsv_to_df(tsv)
-    
+
     # Explode the members column
     df_cls["members"] = df_cls.members.str.split(" ").to_list()
     df_cls = df_cls.explode("members")
 
     return df_cls
 
+
 def mmseqs_tsv_to_df(tsv):
     df_cls = pd.read_csv(tsv, sep="\t", names=["cluster", "members"])
 
     ## Explode the members column
-    #df_cls["members"] = df_cls.members.str.split(" ").to_list()
-    #df_cls = df_cls.explode("members")
+    # df_cls["members"] = df_cls.members.str.split(" ").to_list()
+    # df_cls = df_cls.explode("members")
 
     return df_cls
 
@@ -178,7 +179,8 @@ def cls2fa(fasta, member_to_cluster, outfolder):
 
                 with open(cluster_fasta_name, "a") as fasta_file:
                     fasta_file.write(seq.format("fasta"))
-                    
+
+
 def get_mmseqs_internal_ids_as_set(index):
     mmseqs_internal_ids = set()
     with open(index) as infile:
