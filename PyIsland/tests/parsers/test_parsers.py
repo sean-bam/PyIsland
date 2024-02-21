@@ -1,27 +1,27 @@
-from PyIsland import Parsers
+from pyIsland import Parsers
 from pathlib import Path
-from PyIsland import tests
+from pyIsland import tests
 import pytest
 
 
 @pytest.fixture
 def get_test_gff():
-    return Path("PyIsland/tests/lambda.gff")
+    return Path("pyIsland/tests/lambda.gff")
 
 
 @pytest.fixture
 def get_test_gbk():
-    return Path("PyIsland/tests/lambda.gbk")
+    return Path("pyIsland/tests/lambda.gbk")
 
 
 @pytest.fixture
 def get_test_fasta():
-    return Path("PyIsland/tests/lambda.fna")
+    return Path("pyIsland/tests/lambda.fna")
 
 
 @pytest.fixture
 def get_test_orfs():
-    return Path("PyIsland/tests/lambda.faa")
+    return Path("pyIsland/tests/lambda.faa")
 
 
 def test_gff_to_df(get_test_gff):
@@ -33,7 +33,7 @@ def test_gff_to_df(get_test_gff):
 
 # def test_gff_to_df_with_prodigal_gff():
 
-#    df = Parsers.gff_to_df('PyIsland/tests/example_prodigal.gff')
+#    df = Parsers.gff_to_df('pyIsland/tests/example_prodigal.gff')
 
 # check I can get a contig using the .query method and a string
 #    assert not df.query('contig == "10007077.1"').empty
@@ -71,7 +71,7 @@ def test_gbk_to_df(get_test_gbk):
 def _test_gff_to_df(get_test_gff):
     seqs_to_get = ["seq1"]
 
-    outfasta = Path("PyIsland/tests/fastautils/subseq_fasta_biopython.fasta")
+    outfasta = Path("pyIsland/tests/fastautils/subseq_fasta_biopython.fasta")
 
     df = Parsers.gff_to_df(get_test_gff)
 
@@ -83,7 +83,7 @@ def _test_gff_to_df(get_test_gff):
 
 
 def test_prodigal_gff_to_df(get_test_gff):
-    df = Parsers.prodigal.prodigal_gff_to_df("PyIsland/tests/example_prodigal.gff")
+    df = Parsers.prodigal.prodigal_gff_to_df("pyIsland/tests/example_prodigal.gff")
 
     # check I can get a contig using the .query method and a string
     assert not df.query('contig == "10007077.1"').empty

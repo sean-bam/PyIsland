@@ -1,6 +1,6 @@
 from Bio import SeqIO
 from Bio.SeqFeature import SeqFeature, FeatureLocation
-from PyIsland import Parsers
+from pyIsland import Parsers
 import pandas as pd
 
 

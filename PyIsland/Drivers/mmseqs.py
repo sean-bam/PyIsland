@@ -3,7 +3,7 @@ import subprocess
 import shutil
 import tempfile
 
-from PyIsland import Parsers
+from pyIsland import Parsers
 
 
 def run_mmseqs_cls(

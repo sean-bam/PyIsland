@@ -1,6 +1,6 @@
 import pandas as pd
 
-from PyIsland import Parsers
+from pyIsland import Parsers
 
 
 def prodigal_fasta2df(prodigal_fasta):

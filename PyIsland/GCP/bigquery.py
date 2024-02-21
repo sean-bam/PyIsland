@@ -3,7 +3,7 @@ import random
 import string
 
 from google.cloud import bigquery
-from atxlib import GCP
+from pyIsland import GCP
 
 
 def upload_gff_to_bq(gff, table_id):
