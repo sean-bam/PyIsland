@@ -1,12 +1,12 @@
-# PyIsland
+# pyIsland
 ==============================
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Python library for general bioinformatics, comparative genomics and GCP wrappers
 
-Installation
->pip install PyIsland
+Clone the repository and install with pip:
+>pip install -e .
 
 Project Organization
 ------------
@@ -21,8 +21,8 @@ Project Organization
     │
     ├── setup.py           <- makes project pip installable
     │
-    ├── PyIsland                <- Source code for use in this project.
-    │   ├── __init__.py    <- Makes PyIsland a Python module
+    ├── pyIsland                <- Source code for use in this project.
+    │   ├── __init__.py    <- Makes pyIsland a Python module
     │   │
     │   ├── data           <- Reference data
     │   │
@@ -48,9 +48,9 @@ Project Organization
 ## Testing / code formating
 
 This project comes with `pytest` and `black`. Run pytest using
->pytest PyIsland/tests/ --cov=PyIsland
+>pytest pyIsland/tests/ --cov=pyIsland
 
 And format the code using
->black PyIsland/
+>black pyIsland/
 
 
