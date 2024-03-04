@@ -1,6 +1,6 @@
-from PyIsland import FastaUtils
+from pyIsland import FastaUtils
 from pathlib import Path
-from PyIsland import tests
+from pyIsland import tests
 import pytest
 
 
