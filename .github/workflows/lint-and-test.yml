@@ -34,4 +34,4 @@ jobs:
         black --check .
     - name: Test with pytest
       run: |
-        pytest pyIsland/tests/
+        pytest
